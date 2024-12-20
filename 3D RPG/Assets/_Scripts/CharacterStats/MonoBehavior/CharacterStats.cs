@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CharacterStats:MonoBehaviour
 {
+    public event Action<int, int> UpdateHealthBarOnAttack;
     public CharacterData_SO characterDataTemplate;
     public CharacterData_SO characterData { get; private set; }
     public AttackData_SO attackData;
@@ -53,17 +53,21 @@ public class CharacterStats:MonoBehaviour
             defender.GetComponent<Animator>().SetTrigger("Hit");
         }
         attacker.isCritical = false;
+
+        UpdateHealthBarOnAttack?.Invoke(CurrentHealth, maxHealth);
     }
 
     public void TakeDamage(int damage, CharacterStats defender)
     {
         int currentDamage = Mathf.Max(0, damage - defender.CurrentDefence);
         CurrentHealth = Mathf.Max(0, CurrentHealth - currentDamage);
+
+        UpdateHealthBarOnAttack?.Invoke(CurrentHealth, maxHealth);
     }
 
     private int CurrentDamage()
     {
-        float coreDamage = Random.Range(attackData.minDamage, attackData.maxDamage);
+        float coreDamage = UnityEngine.Random.Range(attackData.minDamage, attackData.maxDamage);
 
         if (isCritical)
         {
@@ -71,6 +75,7 @@ public class CharacterStats:MonoBehaviour
         }
 
         return (int)coreDamage;
+
     }
 
     #endregion
