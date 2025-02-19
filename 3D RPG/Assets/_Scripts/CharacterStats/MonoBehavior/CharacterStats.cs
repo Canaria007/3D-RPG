@@ -55,6 +55,11 @@ public class CharacterStats:MonoBehaviour
         attacker.isCritical = false;
 
         UpdateHealthBarOnAttack?.Invoke(CurrentHealth, maxHealth);
+
+        if(CurrentHealth <= 0)
+        {
+            attacker.characterData.UpdateExp(characterData.killPoint);
+        }
     }
 
     public void TakeDamage(int damage, CharacterStats defender)
@@ -63,6 +68,7 @@ public class CharacterStats:MonoBehaviour
         CurrentHealth = Mathf.Max(0, CurrentHealth - currentDamage);
 
         UpdateHealthBarOnAttack?.Invoke(CurrentHealth, maxHealth);
+        GameManager.Instance.playerStats.characterData.UpdateExp(characterData.killPoint);
     }
 
     private int CurrentDamage()
