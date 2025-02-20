@@ -42,6 +42,9 @@ public class MouseManager : Singleton<MouseManager>
                 case "Attackable":
                     Cursor.SetCursor(attack, new Vector2(16, 16), CursorMode.Auto);
                     break;
+                case "Portal":
+                    Cursor.SetCursor(doorway, new Vector2(16, 16), CursorMode.Auto);
+                    break;
             }
         }
     }
@@ -50,12 +53,12 @@ public class MouseManager : Singleton<MouseManager>
     {
         if(Input.GetMouseButtonDown(0) && hitInfo.collider != null)
         {
-            if(hitInfo.collider.gameObject.CompareTag("Ground"))
+            if (hitInfo.collider.gameObject.CompareTag("Ground"))
             {
                 autoAttackTrigger = false;
                 OnMouseClicked?.Invoke(hitInfo.point);
             }
-            else if(hitInfo.collider.gameObject.CompareTag("Enemy"))
+            else if (hitInfo.collider.gameObject.CompareTag("Enemy"))
             {
                 autoAttackTrigger = true;
                 autoAttackObject = hitInfo.collider.gameObject;
@@ -64,6 +67,10 @@ public class MouseManager : Singleton<MouseManager>
             else if (hitInfo.collider.gameObject.CompareTag("Attackable"))
             {
                 OnEnemyClicked?.Invoke(hitInfo.collider.gameObject);
+            }
+            else if (hitInfo.collider.gameObject.CompareTag("Portal"))
+            {
+                OnMouseClicked?.Invoke(hitInfo.point);
             }
         }
         else if(autoAttackTrigger && autoAttackObject)
