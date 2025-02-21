@@ -19,7 +19,6 @@ public class PlayerHealthUI : MonoBehaviour
 
     private void Update()
     {
-        print("kkkkkkkkk");
         levelText.text = "Level  " + GameManager.Instance.playerStats.characterData.currentLevel.ToString("00");
         print(GameManager.Instance.playerStats.characterData.currentLevel);
         UpdateHealth();

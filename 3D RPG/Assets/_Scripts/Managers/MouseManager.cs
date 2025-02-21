@@ -19,6 +19,12 @@ public class MouseManager : Singleton<MouseManager>
     public event Action<Vector3> OnMouseClicked;
     public event Action<GameObject> OnEnemyClicked;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(this);
+    }
+
     private void Update()
     {
         SetCursorTexture();

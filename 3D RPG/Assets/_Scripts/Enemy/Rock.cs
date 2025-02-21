@@ -24,6 +24,8 @@ public class Rock: MonoBehaviour
         rb.velocity = Vector3.one;
         rockStates = RockStates.HitPlayer;
         FlyToTarget();
+
+        Destroy(gameObject, 10f);
     }
 
     private void FixedUpdate()
@@ -32,6 +34,7 @@ public class Rock: MonoBehaviour
         {
             rockStates = RockStates.HitNothing;
         }
+        
     }
 
     public void FlyToTarget()

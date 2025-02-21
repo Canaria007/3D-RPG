@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         characterStats = GetComponent<CharacterStats>();
@@ -28,11 +29,22 @@ public class PlayerController : MonoBehaviour
         stopDistance = agent.stoppingDistance;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         MouseManager.Instance.OnMouseClicked += MoveToTarget;
         MouseManager.Instance.OnEnemyClicked += EventAttack;
+    }
+
+    private void Start()
+    {
         GameManager.Instance.RegisterPlayer(characterStats);
+    }
+
+    private void OnDisable()
+    {
+        if (!MouseManager.IsInitialized) return;
+        MouseManager.Instance.OnMouseClicked -= MoveToTarget;
+        MouseManager.Instance.OnEnemyClicked -= EventAttack;
     }
 
     private void Update()
